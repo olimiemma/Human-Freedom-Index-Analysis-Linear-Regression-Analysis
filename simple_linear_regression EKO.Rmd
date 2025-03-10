@@ -1,0 +1,915 @@
+---
+title: "Introduction to linear regression"
+author: "Emmanuel Olimi Kasigazi"
+output:
+  pdf_document: default
+  html_document:
+    includes:
+      in_header: header.html
+    css: ./lab.css
+    highlight: pygments
+    theme: cerulean
+    toc: true
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE, message = FALSE, warning = FALSE)
+```
+
+The Human Freedom Index is a report that attempts to summarize the idea
+of "freedom" through a bunch of different variables for many countries
+around the globe. It serves as a rough objective measure for the
+relationships between the different types of freedom - whether it's
+political, religious, economical or personal freedom - and other social
+and economic circumstances. The Human Freedom Index is an annually
+co-published report by the Cato Institute, the Fraser Institute, and the
+Liberales Institut at the Friedrich Naumann Foundation for Freedom.
+
+In this lab, you'll be analyzing data from Human Freedom Index reports
+from 2008-2016. Your aim will be to summarize a few of the relationships
+within the data both graphically and numerically in order to find which
+variables can help tell a story about freedom.
+
+## Getting Started
+
+### Load packages
+
+In this lab, you will explore and visualize the data using the
+**tidyverse** suite of packages. The data can be found in the companion
+package for OpenIntro resources, **openintro**.
+
+Let's load the packages.
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+data('hfi', package='openintro')
+```
+
+### The data
+
+The data we're working with is in the openintro package and it's called
+`hfi`, short for Human Freedom Index.
+
+1.  What are the dimensions of the dataset?
+
+```{r}
+dim(hfi)
+```
+
+```{r}
+# Shows dimensions in the console and displays first few rows
+head(hfi)
+```
+
+```{r}
+View(hfi)
+```
+
+**[1] 1458 123**
+
+2.  What type of plot would you use to display the relationship between
+    the personal freedom score, `pf_score`, and one of the other
+    numerical variables? Plot this relationship using the variable
+    `pf_expression_control` as the predictor. Does the relationship look
+    linear? If you knew a country's `pf_expression_control`, or its
+    score out of 10, with 0 being the most, of political pressures and
+    controls on media content, would you be comfortable using a linear
+    model to predict the personal freedom score?
+
+    For displaying the relationship between the personal freedom score
+    (pf_score) and pf_expression_control, a scatterplot would be most
+    appropriate since you're examining the relationship between two
+    numerical variables.
+
+    ```{r}
+    # Creating a scatterplot with pf_expression_control as predictor (x-axis) and pf_score as response (y-axis)
+    ggplot(data = hfi, aes(x = pf_expression_control, y = pf_score)) +
+      geom_point(alpha = 0.7) +  # Add points with slight transparency for better visualization of overlapping points
+      geom_smooth(method = "lm", se = TRUE) +  # Add linear regression line with confidence interval
+      labs(
+        title = "Relationship between Expression Control and Personal Freedom Score",
+        x = "Expression Control Score",
+        y = "Personal Freedom Score"
+      ) +
+      theme_minimal()
+    ```
+
+**Looking at the scatterplot, the relationship between
+`pf_expression_control` (on the x-axis) and personal freedom score
+(`pf_score`, on the y-axis) appears to be quite linear. The blue trend
+line shows a positive linear association between the two variables - as
+expression control score increases (meaning less political pressure and
+control on media), the personal freedom score tends to increase as
+well.**
+
+**Key observations: - There's a clear positive correlation between the
+variables - The data points follow the linear trend line fairly
+consistently across the range of values - The relationship appears to be
+reasonably strong, with points clustering around the line - There is
+some variance (scatter) around the trend line, but it's relatively
+consistent**
+
+**Yes, I would be comfortable using a linear model to predict the
+personal freedom score based on a country's `pf_expression_control`
+score. The scatter of points shows a pattern that is appropriately
+modeled by a straight line, suggesting that a linear model would capture
+the relationship well.**
+
+**There is, of course, some variance that wouldn't be explained by this
+single predictor, as shown by the vertical spread of points at each
+value of `pf_expression_control`, but the linear trend is strong enough
+to make reasonably good predictions. A linear regression model would be
+suitable for this relationship.**
+
+If the relationship looks linear, we can quantify the strength of the
+relationship with the correlation coefficient.
+
+```{r cor}
+hfi %>%
+  summarise(cor(pf_expression_control, pf_score, use = "complete.obs"))
+```
+
+Here, we set the `use` argument to "complete.obs" since there are some
+observations of NA.
+
+## Sum of squared residuals
+
+::: {#boxedtext}
+In this section, you will use an interactive function to investigate
+what we mean by "sum of squared residuals". You will need to run this
+function in your console, not in your markdown document. Running the
+function also requires that the `hfi` dataset is loaded in your
+environment.
+:::
+
+Think back to the way that we described the distribution of a single
+variable. Recall that we discussed characteristics such as center,
+spread, and shape. It's also useful to be able to describe the
+relationship of two numerical variables, such as `pf_expression_control`
+and `pf_score` above.
+
+3.  Looking at your plot from the previous exercise, describe the
+    relationship between these two variables. Make sure to discuss the
+    form, direction, and strength of the relationship as well as any
+    unusual observations. Form The relationship appears clearly linear.
+    The points follow a straight-line pattern from the bottom left to
+    the upper right of the plot, and the blue trend line confirms this
+    linear pattern. There's no evidence of curvature or a non-linear
+    relationship.
+
+**Direction The relationship is positive. As pf_expression_control
+increases (meaning less political pressure and control on media
+content), the personal freedom score (pf_score) also increases.
+Countries with greater freedom of expression tend to have higher overall
+personal freedom scores.**
+
+**Strength The relationship is strong, which is confirmed by the
+correlation coefficient of 0.796. The points cluster fairly tightly
+around the trend line, especially in the middle ranges. The high
+correlation indicates that expression control is a substantial component
+of and strong predictor for overall personal freedom.**
+
+**Unusual Observations There are a few notable unusual observations:**
+
+**Several outliers appear in the bottom left quadrant where both scores
+are very low (countries with highly restricted expression and low
+personal freedom) There appears to be one point around expression
+control score 7.5 that has an unusually low personal freedom score
+(around 5) compared to others with similar expression control scores A
+few countries with high expression control scores (7.5-10) show more
+variability in their personal freedom scores than might be expected**
+
+**The scatter of points also appears to be somewhat wider at the lower
+end of the expression control scale, suggesting that countries with more
+media control show more variability in their overall personal freedom
+scores than those with freer media.**
+
+Just as you've used the mean and standard deviation to summarize a
+single variable, you can summarize the relationship between these two
+variables by finding the line that best follows their association. Use
+the following interactive function to select the line that you think
+does the best job of going through the cloud of points.
+
+```{r plotss-expression-score, eval=FALSE}
+# This will only work interactively (i.e. will not show in the knitted document)
+hfi <- hfi %>% filter(complete.cases(pf_expression_control, pf_score))
+DATA606::plot_ss(x = hfi$pf_expression_control, y = hfi$pf_score)
+```
+
+After running this command, you'll be prompted to click two points on
+the plot to define a line. Once you've done that, the line you specified
+will be shown in black and the residuals in blue. Note that there are 30
+residuals, one for each of the 30 observations. Recall that the
+residuals are the difference between the observed values and the values
+predicted by the line:
+
+$$ e_i = y_i - \hat{y}_i $$
+
+The most common way to do linear regression is to select the line that
+minimizes the sum of squared residuals. To visualize the squared
+residuals, you can rerun the plot command and add the argument
+`showSquares = TRUE`.
+
+```{r plotss-expression-score-squares, eval=FALSE}
+DATA606::plot_ss(x = hfi$pf_expression_control, y = hfi$pf_score, showSquares = TRUE)
+```
+
+Note that the output from the `plot_ss` function provides you with the
+slope and intercept of your line as well as the sum of squares.
+
+4.  Using `plot_ss`, choose a line that does a good job of minimizing
+    the sum of squares. Run the function several times. What was the
+    smallest sum of squares that you got? How does it compare to your
+    neighbors?
+
+**Sum of Squares: 965.674**
+
+## The linear model
+
+It is rather cumbersome to try to get the correct least squares line,
+i.e. the line that minimizes the sum of squared residuals, through trial
+and error. Instead, you can use the `lm` function in R to fit the linear
+model (a.k.a. regression line).
+
+```{r m1}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+The first argument in the function `lm` is a formula that takes the form
+`y ~ x`. Here it can be read that we want to make a linear model of
+`pf_score` as a function of `pf_expression_control`. The second argument
+specifies that R should look in the `hfi` data frame to find the two
+variables.
+
+The output of `lm` is an object that contains all of the information we
+need about the linear model that was just fit. We can access this
+information using the summary function.
+
+```{r summary-m1}
+summary(m1)
+```
+
+Let's consider this output piece by piece. First, the formula used to
+describe the model is shown at the top. After the formula you find the
+five-number summary of the residuals. The "Coefficients" table shown
+next is key; its first column displays the linear model's y-intercept
+and the coefficient of `pf_expression_control`. With this table, we can
+write down the least squares regression line for the linear model:
+
+$$ \hat{y} = 4.61707 + 0.49143 \times pf\_expression\_control $$
+
+One last piece of information we will discuss from the summary output is
+the Multiple R-squared, or more simply, $R^2$. The $R^2$ value
+represents the proportion of variability in the response variable that
+is explained by the explanatory variable. For this model, 63.42% of the
+variability in runs is explained by at-bats.
+
+5.  Fit a new model that uses `pf_expression_control` to predict
+    `hf_score`, or the total human freedom score. Using the estimates
+    from the R output, write the equation of the regression line. What
+    does the slope tell us in the context of the relationship between
+    human freedom and the amount of political pressure on media content?
+
+```{r m2}
+m2 <- lm(hf_score ~ pf_expression_control, data = hfi)
+```
+
+```{r}
+summary(m2)
+```
+
+**hf_score = 5.153687 + 0.349862 × pf_expression_control Interpreting
+the slope (0.349862) in context:**
+
+**For each one-unit increase in the expression control score (meaning
+less political pressure and control on media content), we expect the
+total human freedom score to increase by approximately 0.35 points,
+holding all else constant.**
+
+**This tells us that there's a significant positive relationship between
+media freedom and overall human freedom. Countries where there is less
+political pressure on media content tend to have higher total human
+freedom scores.**
+
+**The relationship is strong and statistically significant (p \<
+2e-16).**
+
+**The R-squared value of 0.5775 indicates that approximately 58% of the
+variation in total human freedom scores can be explained by the level of
+expression control alone.**
+
+**This is slightly lower than what we saw for personal freedom (63.4%),
+which makes sense because total human freedom also incorporates economic
+freedom components that might be less directly connected to media
+freedom.**
+
+**The positive slope confirms that societies with freer media
+environments tend to have greater overall human freedom, including both
+personal and economic dimensions.** **Insert your answer here**
+
+## Prediction and prediction errors
+
+Let's create a scatterplot with the least squares line for `m1` laid on
+top.
+
+```{r reg-with-line}
+ggplot(data = hfi, aes(x = pf_expression_control, y = pf_score)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE)
+```
+
+Here, we are literally adding a layer on top of our plot. `geom_smooth`
+creates the line by fitting a linear model. It can also show us the
+standard error `se` associated with our line, but we'll suppress that
+for now.
+
+This line can be used to predict $y$ at any value of $x$. When
+predictions are made for values of $x$ that are beyond the range of the
+observed data, it is referred to as *extrapolation* and is not usually
+recommended. However, predictions made within the range of the data are
+more reliable. They're also used to compute the residuals.
+
+6.  If someone saw the least squares regression line and not the actual
+    data, how would they predict a country's personal freedom school for
+    one with a 6.7 rating for `pf_expression_control`? Is this an
+    overestimate or an underestimate, and by how much? In other words,
+    what is the residual for this prediction?
+
+**For a country with pf_expression_control = 6.7: Predicted pf_score =
+4.61707 + 0.49143 × 6.7 Predicted pf_score = 4.61707 + 3.29258 Predicted
+pf_score = 7.90965 Therefore, if someone only saw the regression line
+and not the actual data, they would predict a personal freedom score of
+approximately 7.91 for a country with an expression control rating of
+6.7. To determine if this is an overestimate or underestimate, I would
+need to know the actual pf_score for a country with
+pf_expression_control = 6.7. I looked at the data adn saw several
+countries with 6.75 but no 6.7 pf_expression_control.**
+
+**Looking at the scatterplot, I can see that at x = 6.7, there are
+multiple data points with varying y-values both above and below the
+regression line.**
+
+**For countries at this expression control level, some have personal
+freedom scores higher than 7.91 (the prediction would be an
+underestimate for these), while others have lower scores (the prediction
+would be an overestimate for these).**
+
+**The residual would be calculated as: Residual = Actual pf_score -
+Predicted pf_score = Actual pf_score - 7.9**
+
+## Model diagnostics
+
+To assess whether the linear model is reliable, we need to check for (1)
+linearity, (2) nearly normal residuals, and (3) constant variability.
+
+**Linearity**: You already checked if the relationship between
+`pf_score` and \`pf_expression_control' is linear using a scatterplot.
+We should also verify this condition with a plot of the residuals vs.
+fitted (predicted) values.
+
+```{r residuals}
+ggplot(data = m1, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+Notice here that `m1` can also serve as a data set because stored within
+it are the fitted values ($\hat{y}$) and the residuals. Also note that
+we're getting fancy with the code here. After creating the scatterplot
+on the first layer (first line of code), we overlay a horizontal dashed
+line at $y = 0$ (to help us check whether residuals are distributed
+around 0), and we also reanme the axis labels to be more informative.
+
+7.  Is there any apparent pattern in the residuals plot? What does this
+    indicate about the linearity of the relationship between the two
+    variables?
+
+    **Looking at the residuals vs. fitted values plot, I don't see any
+    strong or systematic pattern in the residuals. The points appear to
+    be randomly scattered around the horizontal dashed line at y=0, with
+    no clear trends, curves, or funnels visible.**
+
+**Key observations about this residuals plot: 1. The residuals are
+fairly evenly distributed above and below zero across all fitted values
+2. There's no obvious curvature or trend that would suggest nonlinearity
+3. The spread of residuals appears relatively consistent across the
+range of fitted values**
+
+**This lack of pattern in the residuals plot indicates that the linear
+model is appropriate for describing the relationship between personal
+freedom score (pf_score) and expression control (pf_expression_control).
+The random scatter of residuals supports the linearity assumption in our
+regression model.**
+
+**If there had been a curved pattern in the residuals, it would have
+suggested that a linear model was not capturing the true relationship
+between these variables, and a nonlinear model might be more
+appropriate. But based on this plot, the linear model appears to be a
+suitable fit for the data.**
+
+**Nearly normal residuals**: To check this condition, we can look at a
+histogram
+
+```{r hist-res}
+ggplot(data = m1, aes(x = .resid)) +
+  geom_histogram(binwidth = 0.5) +
+  xlab("Residuals")
+```
+
+or a normal probability plot of the residuals.
+
+```{r qq-res}
+ggplot(data = m1, aes(sample = .resid)) +
+  stat_qq()
+```
+
+Note that the syntax for making a normal probability plot is a bit
+different than what you're used to seeing: we set `sample` equal to the
+residuals instead of `x`, and we set a statistical method `qq`, which
+stands for "quantile-quantile", another name commonly used for normal
+probability plots.
+
+8.  Based on the histogram and the normal probability plot, does the
+    nearly normal residuals condition appear to be met?
+
+    **Based on both the histogram and the normal probability plot (Q-Q
+    plot), the nearly normal residuals condition appears to be
+    reasonably well met for this linear model.**
+
+**Looking at the histogram of residuals: - The distribution appears
+approximately symmetric and bell-shaped - It's centered around zero -
+There's a slight positive skew (the right tail is slightly longer than
+the left) - The bulk of residuals fall between -2 and 2**
+
+**The Q-Q plot also supports this conclusion: - The points follow the
+theoretical normal line quite well through the middle of the
+distribution - There are some minor deviations at the extreme tails,
+especially at the very high and very low ends - These small deviations
+at the tails are common in real-world data and not severe enough to
+invalidate the model**
+
+**While the residuals aren't perfectly normal (which is rarely the case
+with real data), they are sufficiently close to normal for the purposes
+of linear regression. The slight departures from normality aren't
+extreme enough to undermine the validity of the model or its statistical
+inferences.**
+
+**Therefore, the nearly normal residuals condition appears to be met for
+this linear regression model.**
+
+**Constant variability**:
+
+9.  Based on the residuals vs. fitted plot, does the constant
+    variability condition appear to be met?
+
+**In that plot, we're checking whether the spread of residuals remains
+consistent across all fitted values. Ideally, the vertical spread of
+residuals should be roughly the same regardless of where you look along
+the x-axis (fitted values).**
+
+**From the plot , I observe that: - The residuals appear to have a
+fairly consistent spread across the range of fitted values - There's no
+obvious funnel shape (widening or narrowing of the residuals) - The
+cloud of points maintains a similar vertical spread from the left to the
+right side of the plot**
+
+**There might be a very slight tendency for the spread to be narrower at
+the extreme ends of the fitted values range, but this is not pronounced
+and could be due to having fewer observations at those extremes.**
+
+**Overall, the constant variability condition appears to be reasonably
+well met for this linear regression model. The relatively uniform spread
+of residuals across fitted values suggests that the model's predictions
+have similar precision regardless of the value being predicted, which
+supports the validity of the model's inferences and predictions.**
+
+------------------------------------------------------------------------
+
+## More Practice
+
+-   Choose another freedom variable and a variable you think would
+    strongly correlate with it.. Produce a scatterplot of the two
+    variables and fit a linear model. At a glance, does there seem to be
+    a linear relationship?
+
+    A good pair to explore would be economic freedom (ef_score) and rule
+    of law (pf_rol), as rule of law is often theorized to be a
+    foundation for economic freedom.
+
+    ```{r rule of law adn econ freedom}
+    # Create a scatterplot of ef_score vs pf_rol
+    ggplot(data = hfi, aes(x = pf_rol, y = ef_score)) +
+      geom_point(alpha = 0.7) +
+      geom_smooth(method = "lm", se = TRUE) +
+      labs(
+        title = "Relationship between Rule of Law and Economic Freedom",
+        x = "Rule of Law Score",
+        y = "Economic Freedom Score"
+      ) +
+      theme_minimal()
+
+    ```
+
+```{r m3 linear}
+# Fit a linear model
+m3 <- lm(ef_score ~ pf_rol, data = hfi)
+summary(m3)
+
+```
+
+```{r correlation check}
+# Check correlation
+cor(hfi$pf_rol, hfi$ef_score, use = "complete.obs")
+```
+
+Looking at the scatterplot of Rule of Law vs. Economic Freedom, there
+appears to be a clear positive linear relationship between these
+variables. This is confirmed by the correlation coefficient of
+approximately 0.71, which indicates a strong positive correlation.
+
+Key observations from the plot:
+
+1.  **Linear Trend**: The blue regression line shows a positive slope,
+    indicating that countries with higher rule of law scores tend to
+    have higher economic freedom scores.
+
+2.  **Strength of Relationship**: With a correlation of 0.71, about 50%
+    (0.71² ≈ 0.5) of the variation in economic freedom can be explained
+    by rule of law.
+
+3.  **Data Distribution**: The points follow the linear trend reasonably
+    well, though there is some scatter around the line, indicating that
+    other factors also influence economic freedom.
+
+4.  **Interesting Features**:
+
+    -   There appears to be more variability in economic freedom scores
+        at the middle range of rule of law scores
+    -   At very high rule of law scores (7.5+), there seems to be a
+        cluster of countries with very high economic freedom (8+)
+    -   There are a few outliers, including some countries with
+        relatively low rule of law but moderate economic freedom
+
+This relationship makes theoretical sense: strong rule of law provides
+the legal framework and stability necessary for economic freedom to
+flourish. Countries with clear, consistent, and fairly enforced laws
+tend to have better property rights protection, contract enforcement,
+and regulatory environments - all important components of economic
+freedom.
+
+The linear relationship appears appropriate for modeling this data, and
+a linear regression model would be suitable for predicting economic
+freedom based on rule of law.
+
+Let's Also explore the relationship between rule of law in criminal
+justice (pf_rol_criminal) and personal freedom score (pf_score). The
+criminal justice system's fairness and effectiveness is an important
+component of personal freedom, and it would be interesting to see how
+strongly it correlates with overall personal freedom.
+
+```{r}
+# Create a scatterplot of pf_score vs pf_rol_criminal
+ggplot(data = hfi, aes(x = pf_rol_criminal, y = pf_score)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "Relationship between Criminal Justice and Personal Freedom",
+    x = "Rule of Law - Criminal Justice Score",
+    y = "Personal Freedom Score"
+  ) +
+  theme_minimal()
+
+# Fit a linear model
+m4 <- lm(pf_score ~ pf_rol_criminal, data = hfi)
+summary(m4)
+
+# Check correlation
+cor(hfi$pf_rol_criminal, hfi$pf_score, use = "complete.obs")
+```
+
+Looking at the scatterplot of Rule of Law - Criminal Justice Score vs.
+Personal Freedom Score, there's a clear positive linear relationship
+between these variables. The correlation coefficient of approximately
+0.68 confirms this is a strong positive correlation.
+
+Key observations from this analysis:
+
+1.  **Linear Relationship**: The blue regression line shows a clear
+    positive slope, indicating that countries with better criminal
+    justice systems tend to have higher personal freedom scores.
+
+2.  **Strength of Relationship**: With a correlation of 0.68, about
+    46.6% (0.68² ≈ 0.466) of the variation in personal freedom scores
+    can be explained by the criminal justice component of rule of law.
+
+3.  **Comparative Analysis**:
+
+    -   This relationship (r = 0.68, R² ≈ 0.47) is stronger than the
+        relationship between rule of law and economic freedom (r = 0.71,
+        R² ≈ 0.50)
+    -   However, it's slightly weaker than the relationship between
+        expression control and personal freedom (r = 0.796, R² ≈ 0.63)
+
+4.  **Data Distribution**:
+
+    -   There's more variability in the personal freedom scores at the
+        middle range of criminal justice scores
+    -   The relationship appears most consistent at the higher end of
+        the scale
+    -   There are some outliers, particularly countries with moderately
+        high criminal justice scores but lower personal freedom
+
+This relationship makes intuitive sense: fair criminal justice systems
+that respect due process and human rights are foundational to personal
+freedom. Countries where individuals are protected from arbitrary
+detention, have fair trials, and face proportionate punishments tend to
+have higher overall personal freedom.
+
+The strength of this relationship suggests that criminal justice is an
+important component of personal freedom, though not as predictive as
+freedom of expression. This could be because expression rights might
+have more direct day-to-day impacts on citizens' sense of freedom than
+criminal justice, which affects fewer people directly but remains
+essential for the rule of law.
+
+**Insert your answer here**
+
+-   How does this relationship compare to the relationship between
+    `pf_expression_control` and `pf_score`? Use the $R^2$ values from
+    the two model summaries to compare. Does your independent variable
+    seem to predict your dependent one better? Why or why not?
+
+Rule of Law vs. Economic Freedom To compare these relationships, I need
+to look at the R² values from both models:
+
+1.  For the relationship between `pf_expression_control` and `pf_score`:
+    -   R² = 0.6342 (from the earlier model summary)
+2.  For the relationship between `pf_rol` (rule of law) and `ef_score`
+    (economic freedom):
+    -   We can calculate this from the correlation: R² = 0.7064² ≈ 0.499
+
+Comparing these R² values: - The expression control model explains about
+63.4% of the variation in personal freedom scores - The rule of law
+model explains about 49.9% of the variation in economic freedom scores
+
+This means that `pf_expression_control` appears to be a better predictor
+of `pf_score` than `pf_rol` is of `ef_score`, though both show strong
+positive relationships.
+
+Why might this be the case?
+
+1.  **Component vs. Composite Relationship**: Expression control is one
+    of the components that directly makes up the personal freedom score,
+    so it's expected to have a stronger relationship. Rule of law, while
+    important for economic freedom, might have a more indirect
+    relationship with the overall economic freedom score.
+
+2.  **Multiple Dimensions of Economic Freedom**: Economic freedom likely
+    depends on many diverse factors besides rule of law, such as tax
+    policies, trade regulations, and monetary stability. Personal
+    freedom might have a more cohesive structure with expression being a
+    core element.
+
+3.  **Measurement Precision**: The way these variables are measured
+    could affect how strongly they correlate. If personal freedom
+    metrics are more internally consistent than economic freedom
+    metrics, we would expect stronger correlations among the former.
+
+Both relationships show important connections between foundational
+aspects of freedom and overall freedom scores, but the data suggests
+that expression control is more strongly predictive of overall personal
+freedom than rule of law is of economic freedom.
+
+Rule of Law - Criminal Justice Score vs. Personal Freedom Comparing the
+relationships between these variables using R² values:
+
+1.  For `pf_expression_control` and `pf_score`:
+    -   Correlation = 0.796
+    -   R² = 0.634 (63.4% of variation explained)
+2.  For `pf_rol_criminal` and `pf_score`:
+    -   Correlation = 0.682
+    -   R² = 0.466 (46.6% of variation explained)
+
+Based on these values, `pf_expression_control` is a stronger predictor
+of overall personal freedom than criminal justice systems. The
+expression control variable explains approximately 17 percentage points
+more variation in personal freedom scores than the criminal justice
+variable.
+
+Why might this be the case?
+
+1.  **Direct vs. Indirect Impact**: Freedom of expression might have a
+    more direct and widespread impact on daily life for the average
+    citizen. While criminal justice is crucial, many people might not
+    directly interact with the criminal justice system, whereas
+    expression freedoms affect nearly everyone daily.
+
+2.  **Composite Score Weighting**: The personal freedom score likely
+    includes expression freedom as a more heavily weighted component
+    than criminal justice metrics, which would naturally lead to a
+    stronger correlation.
+
+3.  **Leading Indicator**: Expression freedom often serves as a canary
+    in the coal mine for overall personal freedom. When governments
+    begin restricting freedoms, expression is frequently targeted first.
+
+4.  **Measurement Clarity**: Freedom of expression might be easier to
+    measure consistently across countries than criminal justice
+    fairness, which involves more complex and varied systems.
+
+Both variables are strong predictors of personal freedom, which makes
+sense conceptually. However, the data indicates that knowing a country's
+level of media freedom and expression control gives us more predictive
+power about its overall personal freedom than knowing the quality of its
+criminal justice system.
+
+This illustrates how different components of freedom vary in their
+relationship to overall freedom measures, providing insight into the
+complex structure of what makes societies free. **Insert your answer
+here**
+
+-   What's one freedom relationship you were most surprised about and
+    why? Display the model diagnostics for the regression model
+    analyzing this relationship.
+
+    Let me explore a freedom relationship I find particularly surprising
+    by examining the relationship between religious freedom and economic
+    freedom.
+
+```{r}
+# Create a scatterplot of ef_score vs pf_religion
+ggplot(data = hfi, aes(x = pf_religion, y = ef_score)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "Relationship between Religious Freedom and Economic Freedom",
+    x = "Religious Freedom Score",
+    y = "Economic Freedom Score"
+  ) +
+  theme_minimal()
+
+```
+
+I find this relationship surprising because economic freedom and
+religious freedom come from different conceptual traditions. Religious
+freedom is primarily about personal beliefs and worship practices, while
+economic freedom concerns markets, property rights, and commercial
+activities. While we might expect democratic societies to have both,
+there are notable examples of countries with significant religious
+restrictions yet relatively free economies (like some Gulf states), and
+others with strong.
+
+What surprises me about this relationship is how it reveals the
+interconnectedness of different types of freedom, despite their
+conceptual differences. It suggests that societies might approach
+freedom more holistically than we sometimes assume, rather than treating
+different freedoms as entirely separate domains.religious freedoms but
+more controlled economies.
+
+```{r}
+# Fit a linear model
+m5 <- lm(ef_score ~ pf_religion, data = hfi)
+summary(m5)
+
+# Check correlation
+cor(hfi$pf_religion, hfi$ef_score, use = "complete.obs")
+```
+
+```{r}
+# Model diagnostics
+# 1. Residuals vs Fitted plot
+ggplot(data = m5, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(title = "Residuals vs Fitted Values",
+       x = "Fitted values", 
+       y = "Residuals")
+```
+
+```{r}
+# 2. Q-Q plot for normality of residuals
+ggplot(data = m5, aes(sample = .resid)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "Normal Q-Q Plot",
+       x = "Theoretical Quantiles", 
+       y = "Sample Quantiles")
+```
+
+```{r}
+# 3. Histogram of residuals
+ggplot(data = m5, aes(x = .resid)) +
+  geom_histogram(binwidth = 0.5) +
+  labs(title = "Histogram of Residuals",
+       x = "Residuals", 
+       y = "Count")
+```
+
+Looking at these results, I'm genuinely surprised by the relationship
+between religious freedom and economic freedom. This is perhaps the most
+unexpected finding in our analysis of the Human Freedom Index data.
+
+The correlation coefficient is only 0.132, which indicates a very weak
+positive relationship between religious freedom and economic freedom.
+This translates to an R² of only about 0.017, meaning that religious
+freedom explains less than 2% of the variation in economic freedom
+scores.
+
+What makes this relationship surprising:
+
+1.  **Weak Association**: Unlike the other freedom relationships we
+    examined, which showed moderate to strong correlations (0.68-0.80),
+    religious freedom and economic freedom are barely related. The
+    nearly flat regression line in the scatterplot confirms this visual
+    impression.
+
+2.  **Theoretical Implications**: This challenges the assumption that
+    different types of freedom are strongly interconnected. While
+    personal freedoms like expression and criminal justice protections
+    showed strong relationships, religious freedom appears to operate
+    more independently from economic systems.
+
+3.  **Real-World Examples**: This data helps explain why we see
+    countries with high religious freedom but varying levels of economic
+    freedom (e.g., some European welfare states), and others with high
+    economic freedom but restricted religious practices (e.g., certain
+    East Asian and Middle Eastern economies).
+
+The weak relationship between religious freedom and economic freedom
+does make intuitive sense from several perspectives, and I don't think
+our data is wrong. Here's why:
+
+1.  **Different Historical Developments**: Religious freedom and
+    economic freedom often developed through separate historical
+    processes. Religious freedom emerged through religious wars,
+    enlightenment thinking, and constitutional protections, while
+    economic freedom developed through commercial revolutions,
+    industrialization, and economic liberalization policies.
+
+2.  **Real-World Examples Support This Finding**:
+
+    -   Singapore has high economic freedom but moderate religious
+        freedom with some restrictions
+    -   Some European countries (like Sweden or Denmark) have very high
+        religious freedom but more regulated economies
+    -   Gulf states like UAE or Qatar have relatively high economic
+        freedom scores but significant religious restrictions
+    -   India has strong religious freedom protections constitutionally
+        but more moderate economic freedom scores
+
+3.  **Different Institutional Requirements**: Religious freedom
+    primarily requires non-intervention by the state in personal beliefs
+    and practices, while economic freedom requires specific
+    institutional arrangements like property rights enforcement,
+    contract law, and particular regulatory environments.
+
+4.  **Cultural vs. Structural Factors**: Religious freedom is often more
+    culturally determined, while economic freedom is more structurally
+    determined through formal institutions and policies.
+
+The HFI is a well-respected dataset compiled by multiple research
+institutes (Cato Institute, Fraser Institute, and Liberales Institut),
+so it's likely that this weak correlation genuinely reflects reality
+rather than a data problem.
+
+This finding challenges the notion that all freedoms necessarily move
+together, suggesting that human freedom is more multidimensional than
+sometimes assumed. Some societies prioritize different types of freedoms
+based on their specific cultural, historical, and political contexts.
+
+This complexity actually makes our analysis more interesting - it
+reveals that the relationships between different types of freedom aren't
+uniform, which is valuable information for understanding how freedom
+develops across societies.
+
+The model diagnostics support these observations:
+
+-   **Residuals vs. Fitted Plot**: Shows no clear pattern but
+    demonstrates wide scatter, confirming the weak predictive power of
+    the model.
+-   **Q-Q Plot**: Indicates the residuals follow a reasonably normal
+    distribution, though with some deviation at the tails.
+-   **Histogram of Residuals**: Shows a roughly normal distribution,
+    though slightly skewed.
+
+This finding suggests that religious freedom and economic freedom may
+develop through different historical, cultural, and political
+mechanisms. A society might prioritize religious tolerance without
+embracing free markets, or vice versa. This independence between
+religious and economic freedoms stands in stark contrast to the stronger
+relationships we observed between other freedom variables.
+
+The weak relationship also suggests that policy approaches targeting one
+type of freedom may not automatically enhance other types, requiring
+more nuanced and specific approaches to promoting different dimensions
+of human freedom. **Insert your answer here**
+
+------------------------------------------------------------------------
