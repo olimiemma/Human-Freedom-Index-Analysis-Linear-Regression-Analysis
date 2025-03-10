@@ -1,0 +1,1399 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Introduction to linear regression},
+  pdfauthor={Emmanuel Olimi Kasigazi},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Introduction to linear regression}
+\author{Emmanuel Olimi Kasigazi}
+\date{}
+
+\begin{document}
+\maketitle
+
+The Human Freedom Index is a report that attempts to summarize the idea
+of ``freedom'' through a bunch of different variables for many countries
+around the globe. It serves as a rough objective measure for the
+relationships between the different types of freedom - whether it's
+political, religious, economical or personal freedom - and other social
+and economic circumstances. The Human Freedom Index is an annually
+co-published report by the Cato Institute, the Fraser Institute, and the
+Liberales Institut at the Friedrich Naumann Foundation for Freedom.
+
+In this lab, you'll be analyzing data from Human Freedom Index reports
+from 2008-2016. Your aim will be to summarize a few of the relationships
+within the data both graphically and numerically in order to find which
+variables can help tell a story about freedom.
+
+\subsection{Getting Started}\label{getting-started}
+
+\subsubsection{Load packages}\label{load-packages}
+
+In this lab, you will explore and visualize the data using the
+\textbf{tidyverse} suite of packages. The data can be found in the
+companion package for OpenIntro resources, \textbf{openintro}.
+
+Let's load the packages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(openintro)}
+\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}hfi\textquotesingle{}}\NormalTok{, }\AttributeTok{package=}\StringTok{\textquotesingle{}openintro\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{The data}\label{the-data}
+
+The data we're working with is in the openintro package and it's called
+\texttt{hfi}, short for Human Freedom Index.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What are the dimensions of the dataset?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(hfi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1458  123
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Shows dimensions in the console and displays first few rows}
+\FunctionTok{head}\NormalTok{(hfi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 123
+##    year ISO_code countries region pf_rol_procedural pf_rol_civil pf_rol_criminal
+##   <dbl> <chr>    <chr>     <chr>              <dbl>        <dbl>           <dbl>
+## 1  2016 ALB      Albania   Easte~              6.66         4.55            4.67
+## 2  2016 DZA      Algeria   Middl~             NA           NA              NA   
+## 3  2016 AGO      Angola    Sub-S~             NA           NA              NA   
+## 4  2016 ARG      Argentina Latin~              7.10         5.79            4.34
+## 5  2016 ARM      Armenia   Cauca~             NA           NA              NA   
+## 6  2016 AUS      Australia Ocean~              8.44         7.53            7.36
+## # i 116 more variables: pf_rol <dbl>, pf_ss_homicide <dbl>,
+## #   pf_ss_disappearances_disap <dbl>, pf_ss_disappearances_violent <dbl>,
+## #   pf_ss_disappearances_organized <dbl>,
+## #   pf_ss_disappearances_fatalities <dbl>, pf_ss_disappearances_injuries <dbl>,
+## #   pf_ss_disappearances <dbl>, pf_ss_women_fgm <dbl>,
+## #   pf_ss_women_missing <dbl>, pf_ss_women_inheritance_widows <dbl>,
+## #   pf_ss_women_inheritance_daughters <dbl>, pf_ss_women_inheritance <dbl>, ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{View}\NormalTok{(hfi)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{{[}1{]} 1458 123}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  What type of plot would you use to display the relationship between
+  the personal freedom score, \texttt{pf\_score}, and one of the other
+  numerical variables? Plot this relationship using the variable
+  \texttt{pf\_expression\_control} as the predictor. Does the
+  relationship look linear? If you knew a country's
+  \texttt{pf\_expression\_control}, or its score out of 10, with 0 being
+  the most, of political pressures and controls on media content, would
+  you be comfortable using a linear model to predict the personal
+  freedom score?
+
+  For displaying the relationship between the personal freedom score
+  (pf\_score) and pf\_expression\_control, a scatterplot would be most
+  appropriate since you're examining the relationship between two
+  numerical variables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Creating a scatterplot with pf\_expression\_control as predictor (x{-}axis) and pf\_score as response (y{-}axis)}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hfi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ pf\_expression\_control, }\AttributeTok{y =}\NormalTok{ pf\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add points with slight transparency for better visualization of overlapping points}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add linear regression line with confidence interval}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Relationship between Expression Control and Personal Freedom Score"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Expression Control Score"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Personal Freedom Score"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+  \includegraphics{simple_linear_regression-EKO_files/figure-latex/unnamed-chunk-4-1.pdf}
+\end{enumerate}
+
+\textbf{Looking at the scatterplot, the relationship between
+\texttt{pf\_expression\_control} (on the x-axis) and personal freedom
+score (\texttt{pf\_score}, on the y-axis) appears to be quite linear.
+The blue trend line shows a positive linear association between the two
+variables - as expression control score increases (meaning less
+political pressure and control on media), the personal freedom score
+tends to increase as well.}
+
+\textbf{Key observations: - There's a clear positive correlation between
+the variables - The data points follow the linear trend line fairly
+consistently across the range of values - The relationship appears to be
+reasonably strong, with points clustering around the line - There is
+some variance (scatter) around the trend line, but it's relatively
+consistent}
+
+\textbf{Yes, I would be comfortable using a linear model to predict the
+personal freedom score based on a country's
+\texttt{pf\_expression\_control} score. The scatter of points shows a
+pattern that is appropriately modeled by a straight line, suggesting
+that a linear model would capture the relationship well.}
+
+\textbf{There is, of course, some variance that wouldn't be explained by
+this single predictor, as shown by the vertical spread of points at each
+value of \texttt{pf\_expression\_control}, but the linear trend is
+strong enough to make reasonably good predictions. A linear regression
+model would be suitable for this relationship.}
+
+If the relationship looks linear, we can quantify the strength of the
+relationship with the correlation coefficient.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hfi }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{cor}\NormalTok{(pf\_expression\_control, pf\_score, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 1
+##   `cor(pf_expression_control, pf_score, use = "complete.obs")`
+##                                                          <dbl>
+## 1                                                        0.796
+\end{verbatim}
+
+Here, we set the \texttt{use} argument to ``complete.obs'' since there
+are some observations of NA.
+
+\subsection{Sum of squared residuals}\label{sum-of-squared-residuals}
+
+\phantomsection\label{boxedtext}
+In this section, you will use an interactive function to investigate
+what we mean by ``sum of squared residuals''. You will need to run this
+function in your console, not in your markdown document. Running the
+function also requires that the \texttt{hfi} dataset is loaded in your
+environment.
+
+Think back to the way that we described the distribution of a single
+variable. Recall that we discussed characteristics such as center,
+spread, and shape. It's also useful to be able to describe the
+relationship of two numerical variables, such as
+\texttt{pf\_expression\_control} and \texttt{pf\_score} above.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Looking at your plot from the previous exercise, describe the
+  relationship between these two variables. Make sure to discuss the
+  form, direction, and strength of the relationship as well as any
+  unusual observations. Form The relationship appears clearly linear.
+  The points follow a straight-line pattern from the bottom left to the
+  upper right of the plot, and the blue trend line confirms this linear
+  pattern. There's no evidence of curvature or a non-linear
+  relationship.
+\end{enumerate}
+
+\textbf{Direction The relationship is positive. As
+pf\_expression\_control increases (meaning less political pressure and
+control on media content), the personal freedom score (pf\_score) also
+increases. Countries with greater freedom of expression tend to have
+higher overall personal freedom scores.}
+
+\textbf{Strength The relationship is strong, which is confirmed by the
+correlation coefficient of 0.796. The points cluster fairly tightly
+around the trend line, especially in the middle ranges. The high
+correlation indicates that expression control is a substantial component
+of and strong predictor for overall personal freedom.}
+
+\textbf{Unusual Observations There are a few notable unusual
+observations:}
+
+\textbf{Several outliers appear in the bottom left quadrant where both
+scores are very low (countries with highly restricted expression and low
+personal freedom) There appears to be one point around expression
+control score 7.5 that has an unusually low personal freedom score
+(around 5) compared to others with similar expression control scores A
+few countries with high expression control scores (7.5-10) show more
+variability in their personal freedom scores than might be expected}
+
+\textbf{The scatter of points also appears to be somewhat wider at the
+lower end of the expression control scale, suggesting that countries
+with more media control show more variability in their overall personal
+freedom scores than those with freer media.}
+
+Just as you've used the mean and standard deviation to summarize a
+single variable, you can summarize the relationship between these two
+variables by finding the line that best follows their association. Use
+the following interactive function to select the line that you think
+does the best job of going through the cloud of points.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This will only work interactively (i.e. will not show in the knitted document)}
+\NormalTok{hfi }\OtherTok{\textless{}{-}}\NormalTok{ hfi }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{complete.cases}\NormalTok{(pf\_expression\_control, pf\_score))}
+\NormalTok{DATA606}\SpecialCharTok{::}\FunctionTok{plot\_ss}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hfi}\SpecialCharTok{$}\NormalTok{pf\_expression\_control, }\AttributeTok{y =}\NormalTok{ hfi}\SpecialCharTok{$}\NormalTok{pf\_score)}
+\end{Highlighting}
+\end{Shaded}
+
+After running this command, you'll be prompted to click two points on
+the plot to define a line. Once you've done that, the line you specified
+will be shown in black and the residuals in blue. Note that there are 30
+residuals, one for each of the 30 observations. Recall that the
+residuals are the difference between the observed values and the values
+predicted by the line:
+
+\[ e_i = y_i - \hat{y}_i \]
+
+The most common way to do linear regression is to select the line that
+minimizes the sum of squared residuals. To visualize the squared
+residuals, you can rerun the plot command and add the argument
+\texttt{showSquares\ =\ TRUE}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DATA606}\SpecialCharTok{::}\FunctionTok{plot\_ss}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hfi}\SpecialCharTok{$}\NormalTok{pf\_expression\_control, }\AttributeTok{y =}\NormalTok{ hfi}\SpecialCharTok{$}\NormalTok{pf\_score, }\AttributeTok{showSquares =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Note that the output from the \texttt{plot\_ss} function provides you
+with the slope and intercept of your line as well as the sum of squares.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Using \texttt{plot\_ss}, choose a line that does a good job of
+  minimizing the sum of squares. Run the function several times. What
+  was the smallest sum of squares that you got? How does it compare to
+  your neighbors?
+\end{enumerate}
+
+\textbf{Sum of Squares: 965.674}
+
+\subsection{The linear model}\label{the-linear-model}
+
+It is rather cumbersome to try to get the correct least squares line,
+i.e.~the line that minimizes the sum of squared residuals, through trial
+and error. Instead, you can use the \texttt{lm} function in R to fit the
+linear model (a.k.a. regression line).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pf\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pf\_expression\_control, }\AttributeTok{data =}\NormalTok{ hfi)}
+\end{Highlighting}
+\end{Shaded}
+
+The first argument in the function \texttt{lm} is a formula that takes
+the form \texttt{y\ \textasciitilde{}\ x}. Here it can be read that we
+want to make a linear model of \texttt{pf\_score} as a function of
+\texttt{pf\_expression\_control}. The second argument specifies that R
+should look in the \texttt{hfi} data frame to find the two variables.
+
+The output of \texttt{lm} is an object that contains all of the
+information we need about the linear model that was just fit. We can
+access this information using the summary function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(m1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = pf_score ~ pf_expression_control, data = hfi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8467 -0.5704  0.1452  0.6066  3.2060 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)            4.61707    0.05745   80.36   <2e-16 ***
+## pf_expression_control  0.49143    0.01006   48.85   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.8318 on 1376 degrees of freedom
+##   (80 observations deleted due to missingness)
+## Multiple R-squared:  0.6342, Adjusted R-squared:  0.634 
+## F-statistic:  2386 on 1 and 1376 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Let's consider this output piece by piece. First, the formula used to
+describe the model is shown at the top. After the formula you find the
+five-number summary of the residuals. The ``Coefficients'' table shown
+next is key; its first column displays the linear model's y-intercept
+and the coefficient of \texttt{pf\_expression\_control}. With this
+table, we can write down the least squares regression line for the
+linear model:
+
+\[ \hat{y} = 4.61707 + 0.49143 \times pf\_expression\_control \]
+
+One last piece of information we will discuss from the summary output is
+the Multiple R-squared, or more simply, \(R^2\). The \(R^2\) value
+represents the proportion of variability in the response variable that
+is explained by the explanatory variable. For this model, 63.42\% of the
+variability in runs is explained by at-bats.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Fit a new model that uses \texttt{pf\_expression\_control} to predict
+  \texttt{hf\_score}, or the total human freedom score. Using the
+  estimates from the R output, write the equation of the regression
+  line. What does the slope tell us in the context of the relationship
+  between human freedom and the amount of political pressure on media
+  content?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(hf\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pf\_expression\_control, }\AttributeTok{data =}\NormalTok{ hfi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = hf_score ~ pf_expression_control, data = hfi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.6198 -0.4908  0.1031  0.4703  2.2933 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)           5.153687   0.046070  111.87   <2e-16 ***
+## pf_expression_control 0.349862   0.008067   43.37   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.667 on 1376 degrees of freedom
+##   (80 observations deleted due to missingness)
+## Multiple R-squared:  0.5775, Adjusted R-squared:  0.5772 
+## F-statistic:  1881 on 1 and 1376 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\textbf{hf\_score = 5.153687 + 0.349862 × pf\_expression\_control
+Interpreting the slope (0.349862) in context:}
+
+\textbf{For each one-unit increase in the expression control score
+(meaning less political pressure and control on media content), we
+expect the total human freedom score to increase by approximately 0.35
+points, holding all else constant.}
+
+\textbf{This tells us that there's a significant positive relationship
+between media freedom and overall human freedom. Countries where there
+is less political pressure on media content tend to have higher total
+human freedom scores.}
+
+\textbf{The relationship is strong and statistically significant (p
+\textless{} 2e-16).}
+
+\textbf{The R-squared value of 0.5775 indicates that approximately 58\%
+of the variation in total human freedom scores can be explained by the
+level of expression control alone.}
+
+\textbf{This is slightly lower than what we saw for personal freedom
+(63.4\%), which makes sense because total human freedom also
+incorporates economic freedom components that might be less directly
+connected to media freedom.}
+
+\textbf{The positive slope confirms that societies with freer media
+environments tend to have greater overall human freedom, including both
+personal and economic dimensions.} \textbf{Insert your answer here}
+
+\subsection{Prediction and prediction
+errors}\label{prediction-and-prediction-errors}
+
+Let's create a scatterplot with the least squares line for \texttt{m1}
+laid on top.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hfi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ pf\_expression\_control, }\AttributeTok{y =}\NormalTok{ pf\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{stat\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/reg-with-line-1.pdf}
+
+Here, we are literally adding a layer on top of our plot.
+\texttt{geom\_smooth} creates the line by fitting a linear model. It can
+also show us the standard error \texttt{se} associated with our line,
+but we'll suppress that for now.
+
+This line can be used to predict \(y\) at any value of \(x\). When
+predictions are made for values of \(x\) that are beyond the range of
+the observed data, it is referred to as \emph{extrapolation} and is not
+usually recommended. However, predictions made within the range of the
+data are more reliable. They're also used to compute the residuals.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  If someone saw the least squares regression line and not the actual
+  data, how would they predict a country's personal freedom school for
+  one with a 6.7 rating for \texttt{pf\_expression\_control}? Is this an
+  overestimate or an underestimate, and by how much? In other words,
+  what is the residual for this prediction?
+\end{enumerate}
+
+\textbf{For a country with pf\_expression\_control = 6.7: Predicted
+pf\_score = 4.61707 + 0.49143 × 6.7 Predicted pf\_score = 4.61707 +
+3.29258 Predicted pf\_score = 7.90965 Therefore, if someone only saw the
+regression line and not the actual data, they would predict a personal
+freedom score of approximately 7.91 for a country with an expression
+control rating of 6.7. To determine if this is an overestimate or
+underestimate, I would need to know the actual pf\_score for a country
+with pf\_expression\_control = 6.7. I looked at the data adn saw several
+countries with 6.75 but no 6.7 pf\_expression\_control.}
+
+\textbf{Looking at the scatterplot, I can see that at x = 6.7, there are
+multiple data points with varying y-values both above and below the
+regression line.}
+
+\textbf{For countries at this expression control level, some have
+personal freedom scores higher than 7.91 (the prediction would be an
+underestimate for these), while others have lower scores (the prediction
+would be an overestimate for these).}
+
+\textbf{The residual would be calculated as: Residual = Actual pf\_score
+- Predicted pf\_score = Actual pf\_score - 7.9}
+
+\subsection{Model diagnostics}\label{model-diagnostics}
+
+To assess whether the linear model is reliable, we need to check for (1)
+linearity, (2) nearly normal residuals, and (3) constant variability.
+
+\textbf{Linearity}: You already checked if the relationship between
+\texttt{pf\_score} and `pf\_expression\_control' is linear using a
+scatterplot. We should also verify this condition with a plot of the
+residuals vs. fitted (predicted) values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m1, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .fitted, }\AttributeTok{y =}\NormalTok{ .resid)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fitted values"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Residuals"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/residuals-1.pdf}
+
+Notice here that \texttt{m1} can also serve as a data set because stored
+within it are the fitted values (\(\hat{y}\)) and the residuals. Also
+note that we're getting fancy with the code here. After creating the
+scatterplot on the first layer (first line of code), we overlay a
+horizontal dashed line at \(y = 0\) (to help us check whether residuals
+are distributed around 0), and we also reanme the axis labels to be more
+informative.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
+  Is there any apparent pattern in the residuals plot? What does this
+  indicate about the linearity of the relationship between the two
+  variables?
+
+  \textbf{Looking at the residuals vs.~fitted values plot, I don't see
+  any strong or systematic pattern in the residuals. The points appear
+  to be randomly scattered around the horizontal dashed line at y=0,
+  with no clear trends, curves, or funnels visible.}
+\end{enumerate}
+
+\textbf{Key observations about this residuals plot: 1. The residuals are
+fairly evenly distributed above and below zero across all fitted values
+2. There's no obvious curvature or trend that would suggest nonlinearity
+3. The spread of residuals appears relatively consistent across the
+range of fitted values}
+
+\textbf{This lack of pattern in the residuals plot indicates that the
+linear model is appropriate for describing the relationship between
+personal freedom score (pf\_score) and expression control
+(pf\_expression\_control). The random scatter of residuals supports the
+linearity assumption in our regression model.}
+
+\textbf{If there had been a curved pattern in the residuals, it would
+have suggested that a linear model was not capturing the true
+relationship between these variables, and a nonlinear model might be
+more appropriate. But based on this plot, the linear model appears to be
+a suitable fit for the data.}
+
+\textbf{Nearly normal residuals}: To check this condition, we can look
+at a histogram
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m1, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .resid)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Residuals"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/hist-res-1.pdf}
+
+or a normal probability plot of the residuals.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m1, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{sample =}\NormalTok{ .resid)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_qq}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/qq-res-1.pdf}
+
+Note that the syntax for making a normal probability plot is a bit
+different than what you're used to seeing: we set \texttt{sample} equal
+to the residuals instead of \texttt{x}, and we set a statistical method
+\texttt{qq}, which stands for ``quantile-quantile'', another name
+commonly used for normal probability plots.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\item
+  Based on the histogram and the normal probability plot, does the
+  nearly normal residuals condition appear to be met?
+
+  \textbf{Based on both the histogram and the normal probability plot
+  (Q-Q plot), the nearly normal residuals condition appears to be
+  reasonably well met for this linear model.}
+\end{enumerate}
+
+\textbf{Looking at the histogram of residuals: - The distribution
+appears approximately symmetric and bell-shaped - It's centered around
+zero - There's a slight positive skew (the right tail is slightly longer
+than the left) - The bulk of residuals fall between -2 and 2}
+
+\textbf{The Q-Q plot also supports this conclusion: - The points follow
+the theoretical normal line quite well through the middle of the
+distribution - There are some minor deviations at the extreme tails,
+especially at the very high and very low ends - These small deviations
+at the tails are common in real-world data and not severe enough to
+invalidate the model}
+
+\textbf{While the residuals aren't perfectly normal (which is rarely the
+case with real data), they are sufficiently close to normal for the
+purposes of linear regression. The slight departures from normality
+aren't extreme enough to undermine the validity of the model or its
+statistical inferences.}
+
+\textbf{Therefore, the nearly normal residuals condition appears to be
+met for this linear regression model.}
+
+\textbf{Constant variability}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{8}
+\tightlist
+\item
+  Based on the residuals vs.~fitted plot, does the constant variability
+  condition appear to be met?
+\end{enumerate}
+
+\textbf{In that plot, we're checking whether the spread of residuals
+remains consistent across all fitted values. Ideally, the vertical
+spread of residuals should be roughly the same regardless of where you
+look along the x-axis (fitted values).}
+
+\textbf{From the plot , I observe that: - The residuals appear to have a
+fairly consistent spread across the range of fitted values - There's no
+obvious funnel shape (widening or narrowing of the residuals) - The
+cloud of points maintains a similar vertical spread from the left to the
+right side of the plot}
+
+\textbf{There might be a very slight tendency for the spread to be
+narrower at the extreme ends of the fitted values range, but this is not
+pronounced and could be due to having fewer observations at those
+extremes.}
+
+\textbf{Overall, the constant variability condition appears to be
+reasonably well met for this linear regression model. The relatively
+uniform spread of residuals across fitted values suggests that the
+model's predictions have similar precision regardless of the value being
+predicted, which supports the validity of the model's inferences and
+predictions.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{More Practice}\label{more-practice}
+
+\begin{itemize}
+\item
+  Choose another freedom variable and a variable you think would
+  strongly correlate with it.. Produce a scatterplot of the two
+  variables and fit a linear model. At a glance, does there seem to be a
+  linear relationship?
+
+  A good pair to explore would be economic freedom (ef\_score) and rule
+  of law (pf\_rol), as rule of law is often theorized to be a foundation
+  for economic freedom.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a scatterplot of ef\_score vs pf\_rol}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hfi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ pf\_rol, }\AttributeTok{y =}\NormalTok{ ef\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Relationship between Rule of Law and Economic Freedom"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Rule of Law Score"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Economic Freedom Score"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+  \includegraphics{simple_linear_regression-EKO_files/figure-latex/rule of law adn econ freedom-1.pdf}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit a linear model}
+\NormalTok{m3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ef\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pf\_rol, }\AttributeTok{data =}\NormalTok{ hfi)}
+\FunctionTok{summary}\NormalTok{(m3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = ef_score ~ pf_rol, data = hfi)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.57936 -0.38334  0.02097  0.41589  1.98154 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  4.61846    0.06091   75.82   <2e-16 ***
+## pf_rol       0.40815    0.01102   37.02   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.6256 on 1376 degrees of freedom
+##   (80 observations deleted due to missingness)
+## Multiple R-squared:  0.499,  Adjusted R-squared:  0.4987 
+## F-statistic:  1371 on 1 and 1376 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Check correlation}
+\FunctionTok{cor}\NormalTok{(hfi}\SpecialCharTok{$}\NormalTok{pf\_rol, hfi}\SpecialCharTok{$}\NormalTok{ef\_score, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7064209
+\end{verbatim}
+
+Looking at the scatterplot of Rule of Law vs.~Economic Freedom, there
+appears to be a clear positive linear relationship between these
+variables. This is confirmed by the correlation coefficient of
+approximately 0.71, which indicates a strong positive correlation.
+
+Key observations from the plot:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Linear Trend}: The blue regression line shows a positive
+  slope, indicating that countries with higher rule of law scores tend
+  to have higher economic freedom scores.
+\item
+  \textbf{Strength of Relationship}: With a correlation of 0.71, about
+  50\% (0.71² ≈ 0.5) of the variation in economic freedom can be
+  explained by rule of law.
+\item
+  \textbf{Data Distribution}: The points follow the linear trend
+  reasonably well, though there is some scatter around the line,
+  indicating that other factors also influence economic freedom.
+\item
+  \textbf{Interesting Features}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    There appears to be more variability in economic freedom scores at
+    the middle range of rule of law scores
+  \item
+    At very high rule of law scores (7.5+), there seems to be a cluster
+    of countries with very high economic freedom (8+)
+  \item
+    There are a few outliers, including some countries with relatively
+    low rule of law but moderate economic freedom
+  \end{itemize}
+\end{enumerate}
+
+This relationship makes theoretical sense: strong rule of law provides
+the legal framework and stability necessary for economic freedom to
+flourish. Countries with clear, consistent, and fairly enforced laws
+tend to have better property rights protection, contract enforcement,
+and regulatory environments - all important components of economic
+freedom.
+
+The linear relationship appears appropriate for modeling this data, and
+a linear regression model would be suitable for predicting economic
+freedom based on rule of law.
+
+Let's Also explore the relationship between rule of law in criminal
+justice (pf\_rol\_criminal) and personal freedom score (pf\_score). The
+criminal justice system's fairness and effectiveness is an important
+component of personal freedom, and it would be interesting to see how
+strongly it correlates with overall personal freedom.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a scatterplot of pf\_score vs pf\_rol\_criminal}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hfi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ pf\_rol\_criminal, }\AttributeTok{y =}\NormalTok{ pf\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Relationship between Criminal Justice and Personal Freedom"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Rule of Law {-} Criminal Justice Score"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Personal Freedom Score"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit a linear model}
+\NormalTok{m4 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(pf\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pf\_rol\_criminal, }\AttributeTok{data =}\NormalTok{ hfi)}
+\FunctionTok{summary}\NormalTok{(m4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = pf_score ~ pf_rol_criminal, data = hfi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.9523 -0.4709  0.2997  0.6235  1.7659 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)      4.80567    0.09913   48.48   <2e-16 ***
+## pf_rol_criminal  0.51438    0.01860   27.66   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.951 on 878 degrees of freedom
+##   (578 observations deleted due to missingness)
+## Multiple R-squared:  0.4656, Adjusted R-squared:  0.465 
+## F-statistic: 765.1 on 1 and 878 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Check correlation}
+\FunctionTok{cor}\NormalTok{(hfi}\SpecialCharTok{$}\NormalTok{pf\_rol\_criminal, hfi}\SpecialCharTok{$}\NormalTok{pf\_score, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6823766
+\end{verbatim}
+
+Looking at the scatterplot of Rule of Law - Criminal Justice Score vs.
+Personal Freedom Score, there's a clear positive linear relationship
+between these variables. The correlation coefficient of approximately
+0.68 confirms this is a strong positive correlation.
+
+Key observations from this analysis:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Linear Relationship}: The blue regression line shows a clear
+  positive slope, indicating that countries with better criminal justice
+  systems tend to have higher personal freedom scores.
+\item
+  \textbf{Strength of Relationship}: With a correlation of 0.68, about
+  46.6\% (0.68² ≈ 0.466) of the variation in personal freedom scores can
+  be explained by the criminal justice component of rule of law.
+\item
+  \textbf{Comparative Analysis}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This relationship (r = 0.68, R² ≈ 0.47) is stronger than the
+    relationship between rule of law and economic freedom (r = 0.71, R²
+    ≈ 0.50)
+  \item
+    However, it's slightly weaker than the relationship between
+    expression control and personal freedom (r = 0.796, R² ≈ 0.63)
+  \end{itemize}
+\item
+  \textbf{Data Distribution}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    There's more variability in the personal freedom scores at the
+    middle range of criminal justice scores
+  \item
+    The relationship appears most consistent at the higher end of the
+    scale
+  \item
+    There are some outliers, particularly countries with moderately high
+    criminal justice scores but lower personal freedom
+  \end{itemize}
+\end{enumerate}
+
+This relationship makes intuitive sense: fair criminal justice systems
+that respect due process and human rights are foundational to personal
+freedom. Countries where individuals are protected from arbitrary
+detention, have fair trials, and face proportionate punishments tend to
+have higher overall personal freedom.
+
+The strength of this relationship suggests that criminal justice is an
+important component of personal freedom, though not as predictive as
+freedom of expression. This could be because expression rights might
+have more direct day-to-day impacts on citizens' sense of freedom than
+criminal justice, which affects fewer people directly but remains
+essential for the rule of law.
+
+\textbf{Insert your answer here}
+
+\begin{itemize}
+\tightlist
+\item
+  How does this relationship compare to the relationship between
+  \texttt{pf\_expression\_control} and \texttt{pf\_score}? Use the
+  \(R^2\) values from the two model summaries to compare. Does your
+  independent variable seem to predict your dependent one better? Why or
+  why not?
+\end{itemize}
+
+Rule of Law vs.~Economic Freedom To compare these relationships, I need
+to look at the R² values from both models:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  For the relationship between \texttt{pf\_expression\_control} and
+  \texttt{pf\_score}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    R² = 0.6342 (from the earlier model summary)
+  \end{itemize}
+\item
+  For the relationship between \texttt{pf\_rol} (rule of law) and
+  \texttt{ef\_score} (economic freedom):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    We can calculate this from the correlation: R² = 0.7064² ≈ 0.499
+  \end{itemize}
+\end{enumerate}
+
+Comparing these R² values: - The expression control model explains about
+63.4\% of the variation in personal freedom scores - The rule of law
+model explains about 49.9\% of the variation in economic freedom scores
+
+This means that \texttt{pf\_expression\_control} appears to be a better
+predictor of \texttt{pf\_score} than \texttt{pf\_rol} is of
+\texttt{ef\_score}, though both show strong positive relationships.
+
+Why might this be the case?
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Component vs.~Composite Relationship}: Expression control is
+  one of the components that directly makes up the personal freedom
+  score, so it's expected to have a stronger relationship. Rule of law,
+  while important for economic freedom, might have a more indirect
+  relationship with the overall economic freedom score.
+\item
+  \textbf{Multiple Dimensions of Economic Freedom}: Economic freedom
+  likely depends on many diverse factors besides rule of law, such as
+  tax policies, trade regulations, and monetary stability. Personal
+  freedom might have a more cohesive structure with expression being a
+  core element.
+\item
+  \textbf{Measurement Precision}: The way these variables are measured
+  could affect how strongly they correlate. If personal freedom metrics
+  are more internally consistent than economic freedom metrics, we would
+  expect stronger correlations among the former.
+\end{enumerate}
+
+Both relationships show important connections between foundational
+aspects of freedom and overall freedom scores, but the data suggests
+that expression control is more strongly predictive of overall personal
+freedom than rule of law is of economic freedom.
+
+Rule of Law - Criminal Justice Score vs.~Personal Freedom Comparing the
+relationships between these variables using R² values:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  For \texttt{pf\_expression\_control} and \texttt{pf\_score}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Correlation = 0.796
+  \item
+    R² = 0.634 (63.4\% of variation explained)
+  \end{itemize}
+\item
+  For \texttt{pf\_rol\_criminal} and \texttt{pf\_score}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Correlation = 0.682
+  \item
+    R² = 0.466 (46.6\% of variation explained)
+  \end{itemize}
+\end{enumerate}
+
+Based on these values, \texttt{pf\_expression\_control} is a stronger
+predictor of overall personal freedom than criminal justice systems. The
+expression control variable explains approximately 17 percentage points
+more variation in personal freedom scores than the criminal justice
+variable.
+
+Why might this be the case?
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Direct vs.~Indirect Impact}: Freedom of expression might have
+  a more direct and widespread impact on daily life for the average
+  citizen. While criminal justice is crucial, many people might not
+  directly interact with the criminal justice system, whereas expression
+  freedoms affect nearly everyone daily.
+\item
+  \textbf{Composite Score Weighting}: The personal freedom score likely
+  includes expression freedom as a more heavily weighted component than
+  criminal justice metrics, which would naturally lead to a stronger
+  correlation.
+\item
+  \textbf{Leading Indicator}: Expression freedom often serves as a
+  canary in the coal mine for overall personal freedom. When governments
+  begin restricting freedoms, expression is frequently targeted first.
+\item
+  \textbf{Measurement Clarity}: Freedom of expression might be easier to
+  measure consistently across countries than criminal justice fairness,
+  which involves more complex and varied systems.
+\end{enumerate}
+
+Both variables are strong predictors of personal freedom, which makes
+sense conceptually. However, the data indicates that knowing a country's
+level of media freedom and expression control gives us more predictive
+power about its overall personal freedom than knowing the quality of its
+criminal justice system.
+
+This illustrates how different components of freedom vary in their
+relationship to overall freedom measures, providing insight into the
+complex structure of what makes societies free. \textbf{Insert your
+answer here}
+
+\begin{itemize}
+\item
+  What's one freedom relationship you were most surprised about and why?
+  Display the model diagnostics for the regression model analyzing this
+  relationship.
+
+  Let me explore a freedom relationship I find particularly surprising
+  by examining the relationship between religious freedom and economic
+  freedom.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a scatterplot of ef\_score vs pf\_religion}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ hfi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ pf\_religion, }\AttributeTok{y =}\NormalTok{ ef\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Relationship between Religious Freedom and Economic Freedom"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Religious Freedom Score"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Economic Freedom Score"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+I find this relationship surprising because economic freedom and
+religious freedom come from different conceptual traditions. Religious
+freedom is primarily about personal beliefs and worship practices, while
+economic freedom concerns markets, property rights, and commercial
+activities. While we might expect democratic societies to have both,
+there are notable examples of countries with significant religious
+restrictions yet relatively free economies (like some Gulf states), and
+others with strong.
+
+What surprises me about this relationship is how it reveals the
+interconnectedness of different types of freedom, despite their
+conceptual differences. It suggests that societies might approach
+freedom more holistically than we sometimes assume, rather than treating
+different freedoms as entirely separate domains.religious freedoms but
+more controlled economies.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit a linear model}
+\NormalTok{m5 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ef\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pf\_religion, }\AttributeTok{data =}\NormalTok{ hfi)}
+\FunctionTok{summary}\NormalTok{(m5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = ef_score ~ pf_religion, data = hfi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8216 -0.5401  0.1591  0.6129  2.3767 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  6.10633    0.14080  43.370  < 2e-16 ***
+## pf_religion  0.08646    0.01762   4.906 1.04e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.8787 on 1366 degrees of freedom
+##   (90 observations deleted due to missingness)
+## Multiple R-squared:  0.01732,    Adjusted R-squared:  0.0166 
+## F-statistic: 24.07 on 1 and 1366 DF,  p-value: 1.039e-06
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Check correlation}
+\FunctionTok{cor}\NormalTok{(hfi}\SpecialCharTok{$}\NormalTok{pf\_religion, hfi}\SpecialCharTok{$}\NormalTok{ef\_score, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.131596
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Model diagnostics}
+\CommentTok{\# 1. Residuals vs Fitted plot}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m5, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .fitted, }\AttributeTok{y =}\NormalTok{ .resid)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Residuals vs Fitted Values"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Fitted values"}\NormalTok{, }
+       \AttributeTok{y =} \StringTok{"Residuals"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. Q{-}Q plot for normality of residuals}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m5, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{sample =}\NormalTok{ .resid)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_qq}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{stat\_qq\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Normal Q{-}Q Plot"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Theoretical Quantiles"}\NormalTok{, }
+       \AttributeTok{y =} \StringTok{"Sample Quantiles"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3. Histogram of residuals}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m5, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .resid)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Histogram of Residuals"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Residuals"}\NormalTok{, }
+       \AttributeTok{y =} \StringTok{"Count"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{simple_linear_regression-EKO_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Looking at these results, I'm genuinely surprised by the relationship
+between religious freedom and economic freedom. This is perhaps the most
+unexpected finding in our analysis of the Human Freedom Index data.
+
+The correlation coefficient is only 0.132, which indicates a very weak
+positive relationship between religious freedom and economic freedom.
+This translates to an R² of only about 0.017, meaning that religious
+freedom explains less than 2\% of the variation in economic freedom
+scores.
+
+What makes this relationship surprising:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Weak Association}: Unlike the other freedom relationships we
+  examined, which showed moderate to strong correlations (0.68-0.80),
+  religious freedom and economic freedom are barely related. The nearly
+  flat regression line in the scatterplot confirms this visual
+  impression.
+\item
+  \textbf{Theoretical Implications}: This challenges the assumption that
+  different types of freedom are strongly interconnected. While personal
+  freedoms like expression and criminal justice protections showed
+  strong relationships, religious freedom appears to operate more
+  independently from economic systems.
+\item
+  \textbf{Real-World Examples}: This data helps explain why we see
+  countries with high religious freedom but varying levels of economic
+  freedom (e.g., some European welfare states), and others with high
+  economic freedom but restricted religious practices (e.g., certain
+  East Asian and Middle Eastern economies).
+\end{enumerate}
+
+The weak relationship between religious freedom and economic freedom
+does make intuitive sense from several perspectives, and I don't think
+our data is wrong. Here's why:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Different Historical Developments}: Religious freedom and
+  economic freedom often developed through separate historical
+  processes. Religious freedom emerged through religious wars,
+  enlightenment thinking, and constitutional protections, while economic
+  freedom developed through commercial revolutions, industrialization,
+  and economic liberalization policies.
+\item
+  \textbf{Real-World Examples Support This Finding}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Singapore has high economic freedom but moderate religious freedom
+    with some restrictions
+  \item
+    Some European countries (like Sweden or Denmark) have very high
+    religious freedom but more regulated economies
+  \item
+    Gulf states like UAE or Qatar have relatively high economic freedom
+    scores but significant religious restrictions
+  \item
+    India has strong religious freedom protections constitutionally but
+    more moderate economic freedom scores
+  \end{itemize}
+\item
+  \textbf{Different Institutional Requirements}: Religious freedom
+  primarily requires non-intervention by the state in personal beliefs
+  and practices, while economic freedom requires specific institutional
+  arrangements like property rights enforcement, contract law, and
+  particular regulatory environments.
+\item
+  \textbf{Cultural vs.~Structural Factors}: Religious freedom is often
+  more culturally determined, while economic freedom is more
+  structurally determined through formal institutions and policies.
+\end{enumerate}
+
+The HFI is a well-respected dataset compiled by multiple research
+institutes (Cato Institute, Fraser Institute, and Liberales Institut),
+so it's likely that this weak correlation genuinely reflects reality
+rather than a data problem.
+
+This finding challenges the notion that all freedoms necessarily move
+together, suggesting that human freedom is more multidimensional than
+sometimes assumed. Some societies prioritize different types of freedoms
+based on their specific cultural, historical, and political contexts.
+
+This complexity actually makes our analysis more interesting - it
+reveals that the relationships between different types of freedom aren't
+uniform, which is valuable information for understanding how freedom
+develops across societies.
+
+The model diagnostics support these observations:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Residuals vs.~Fitted Plot}: Shows no clear pattern but
+  demonstrates wide scatter, confirming the weak predictive power of the
+  model.
+\item
+  \textbf{Q-Q Plot}: Indicates the residuals follow a reasonably normal
+  distribution, though with some deviation at the tails.
+\item
+  \textbf{Histogram of Residuals}: Shows a roughly normal distribution,
+  though slightly skewed.
+\end{itemize}
+
+This finding suggests that religious freedom and economic freedom may
+develop through different historical, cultural, and political
+mechanisms. A society might prioritize religious tolerance without
+embracing free markets, or vice versa. This independence between
+religious and economic freedoms stands in stark contrast to the stronger
+relationships we observed between other freedom variables.
+
+The weak relationship also suggests that policy approaches targeting one
+type of freedom may not automatically enhance other types, requiring
+more nuanced and specific approaches to promoting different dimensions
+of human freedom. \textbf{Insert your answer here}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}
